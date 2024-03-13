@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grid System :: SCSS Mixins</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.min.css">
+    <link rel="stylesheet" href="../../global.css">
+</head>
+
+<body>
+    <div class="row-wrapper wrapper grid">
+        <div class="section">
+            <button class="back-to-home">
+                <a href="../mixins.html">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="feather feather-arrow-left">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    Back to Mixins
+                </a>
+            </button>
+        </div>
+        <div class="section">
+            <h3>Live Demo for Grid System</h3>
+            <div class="row">
+                <div class="col-12 sm-col-4 md-col-7 lg-col-3 xl-col-8 xxl-col-5">
+                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Inventore quia molestiae, magni
+                        possimus
+                        sapiente
+                        commodi neque voluptatem deserunt qui ipsum reprehenderit reiciendis illo, consectetur suscipit.
+                    </p>
+                </div>
+                <div class="col-12 sm-col-8 md-col-5 lg-col-9 xl-col-4 xxl-col-7">
+                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Inventore quia molestiae, magni
+                        possimus
+                        sapiente
+                        commodi neque voluptatem deserunt qui ipsum reprehenderit reiciendis illo, consectetur suscipit.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Mixins for Grid System</h3>
+            <pre>
+    <code class="css">
+    <span class="comments">// Before using grid system mixin, "Mixins for Breakpoints" should use to work this as excepted</span>
+
+    <span class="vars">$grid-gutter: 0.5rem;</span>
+
+    @mixin grid-columns($columns: 12) {
+        @each $breakpoint, $size in $breakpoints {
+            @for $i from 1 through $columns {
+                $width: calc(#{$i} / #{$columns} * 100%);
+                $breakpoint-prefix: "";
+                @if $breakpoint != "xs" {
+                    $breakpoint-prefix: "#{$breakpoint}-";
+                }
+                .#{$breakpoint-prefix}col-#{$i} {
+                @if $breakpoint != "xs" {
+                @media (min-width: #{$size}) {
+                    flex: 0 0 $width;
+                    width: $width;
+                    max-width: $width;
+                    padding-inline: $grid-gutter;
+                }
+                } @else {
+                    flex: 0 0 $width;
+                    width: $width;
+                    max-width: $width;
+                    padding-inline: $grid-gutter;
+                }
+                }
+            }
+        }
+    }
+
+    <span class="comments">// Include in project to use grid system</span><span class="usage">
+    @include grid-columns;
+    </span>
+    </code>
+    </pre>
+        </div>
+
+        <div class="section">
+            <h3>Live Demo for container size update on each breakpoint</h3>
+        </div>
+    </div>
+
+    <!-- container mixin live demo -->
+    <div class="container">
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quibusdam, optio quis. Hic deserunt, voluptatum
+        architecto numquam voluptatem iure nihil laudantium optio, dignissimos officiis atque explicabo.
+    </div>
+</body>
+
+</html>

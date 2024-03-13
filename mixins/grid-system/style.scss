@@ -1,0 +1,126 @@
+* {
+  box-sizing: border-box;
+}
+
+/* Breakpoints */
+$breakpoints: (
+  xs: 320px,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px,
+);
+
+/* Mixin for generating media queries */
+@mixin media($type, $size1, $size2: null) {
+  $breakpoint-size1: map-get($breakpoints, $size1);
+
+  @if not map-has-key($breakpoints, $size1) {
+    @error "Breakpoint name '#{$size1}' does not exist in the breakpoints map.";
+  }
+
+  @if $type == "up" {
+    @media (min-width: $breakpoint-size1) {
+      @content;
+    }
+  } @else if $type == "down" {
+    @media (max-width: $breakpoint-size1) {
+      @content;
+    }
+  } @else if $type == "between" {
+    @if $size2 == null {
+      @error "Type 'between' requires two breakpoint sizes.";
+    }
+
+    @if not map-has-key($breakpoints, $size2) {
+      @error "Breakpoint name '#{$size2}' does not exist in the breakpoints map.";
+    }
+    $breakpoint-size2: map-get($breakpoints, $size2);
+    @media (min-width: $breakpoint-size1) and (max-width: ($breakpoint-size2 - 0.02px)) {
+      @content;
+    }
+  }
+}
+
+$grid-gutter: 0.5rem;
+
+.row-wrapper {
+  padding-inline: $grid-gutter;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-inline: -$grid-gutter;
+
+  & > div:nth-child(odd) {
+    background-color: lightgreen;
+  }
+
+  & > div:nth-child(even) {
+    background-color: lightblue;
+  }
+}
+
+@mixin grid-columns($columns: 12) {
+  @each $breakpoint, $size in $breakpoints {
+    @for $i from 1 through $columns {
+      $width: calc(#{$i} / #{$columns} * 100%);
+      $breakpoint-prefix: "";
+      @if $breakpoint != "xs" {
+        $breakpoint-prefix: "#{$breakpoint}-";
+      }
+      .#{$breakpoint-prefix}col-#{$i} {
+        @if $breakpoint != "xs" {
+          @media (min-width: #{$size}) {
+            flex: 0 0 $width;
+            width: $width;
+            max-width: $width;
+            padding-inline: $grid-gutter;
+          }
+        } @else {
+          flex: 0 0 $width;
+          width: $width;
+          max-width: $width;
+          padding-inline: $grid-gutter;
+        }
+      }
+    }
+  }
+}
+
+@include grid-columns;
+
+/* --------- mixin for container --------- */
+
+// in container map - key should be breakpoints size and value should be container width size
+
+$container: (
+  map-get($breakpoints, xs): 320px,
+  map-get($breakpoints, sm): 540px,
+  map-get($breakpoints, md): 720px,
+  map-get($breakpoints, lg): 960px,
+  map-get($breakpoints, xl): 1140px,
+  map-get($breakpoints, xxl): 1320px,
+);
+
+@mixin container() {
+  .container {
+    background-color: aqua;
+    margin-inline: auto;
+    padding: 20px;
+    margin-block: 25px;
+    font-size: 1.5rem;
+  }
+
+  @each $breakpointSize, $containerSize in $container {
+    @media (min-width: #{$breakpointSize}) {
+      .container {
+        max-width: $containerSize;
+      }
+    }
+  }
+}
+
+@include container();

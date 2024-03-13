@@ -1,0 +1,87 @@
+:root {
+  --btn-padding-inline: 8px;
+  --btn-padding-block: 8px;
+}
+
+.button-group {
+  display: flex;
+  gap: 8px;
+  padding-block: 8px;
+  margin-bottom: 16px;
+}
+
+.btn {
+  padding-inline: var(--btn-padding-inline);
+  padding-block: var(--btn-padding-block);
+  border-radius: 8px;
+  min-width: 55px;
+  font: 600 1.25rem var(--ffamily);
+  letter-spacing: 0.02rem;
+  transition: 0.5s all;
+  cursor: pointer;
+
+  &.btn-sm {
+    --btn-padding-inline: 8px;
+    --btn-padding-block: 5px;
+  }
+
+  &.btn-lg {
+    --btn-padding-inline: 16px;
+    --btn-padding-block: 12px;
+  }
+}
+
+@function set-color($color) {
+  @if (lightness($color) > 40) {
+    @return #000;
+  } @else {
+    @return #fff;
+  }
+}
+
+$buttons: (
+  "primary": #333a73,
+  "secondary": #fba834,
+  "accent": #387adf,
+  "info": #50c4ed,
+);
+
+@mixin button() {
+  @each $name, $varient in $buttons {
+    .btn-#{$name} {
+      background-color: #{$varient};
+      border: 1px solid color-mix(in lab, $varient, set-color($varient) 20%);
+      box-shadow: 0 2px 0 color-mix(in lab, $varient, set-color($varient) 20%);
+      color: set-color($varient);
+
+      &:hover {
+        background-color: color-mix(in lab, #{$varient}, #000 10%);
+        box-shadow: 0
+          2px
+          0
+          color-mix(in lab, $varient, set-color($varient) 30%);
+      }
+    }
+  }
+}
+
+@include button();
+
+@mixin btn-outline() {
+  @each $name, $varient in $buttons {
+    .btn-outline-#{$name} {
+      background-color: transparent;
+      border: 1px solid $varient;
+      color: $varient;
+
+      &:hover {
+        background-color: $varient;
+        color: set-color($varient);
+      }
+    }
+  }
+}
+
+@include btn-outline();
+
+

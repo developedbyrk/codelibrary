@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>:: R Code ::</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../../global.css">
+</head>
+
+<body>
+    <div class="wrapper grid">
+        <div class="section">
+            <button class="back-to-home">
+                <a href="../mixins.html">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="feather feather-arrow-left">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    Back to Mixins
+                </a>
+            </button>
+        </div>
+
+        <div class="section">
+            <h3><a href="../grid-system/index.html" style="color: currentColor;">Check working example of Breakpoints in 'Grid System' page</a></h3>
+        </div>
+
+        <div class="section">
+            <h3>Mixins for Breakpoints</h3>
+            <pre>
+    <code class="css">
+    <span class="comments">// Breakpoints</span><span class="map">
+    $breakpoints: (
+        xl: 1400px,
+        lg: 1200px,
+        md: 992px,
+        sm: 768px,
+        xs: 576px
+    );</span>
+    
+    <span class="comments">// Mixin for generating media queries</span>
+    @mixin media($type, $size1, $size2: null) {
+        $breakpoint-size1: map-get($breakpoints, $size1);
+        
+        @if not map-has-key($breakpoints, $size1) {
+            <span class="error">@error "Breakpoint name '#{$size1}' does not exist in the breakpoints map.";</span>
+        }
+        
+        @if $type == 'up' {
+        @media (min-width: $breakpoint-size1) {
+            @content;
+        }
+        } @else if $type == 'down' {
+        @media (max-width: $breakpoint-size1) {
+            @content;
+        }
+        } @else if $type == 'between' {
+
+        @if $size2 == null {
+            <span class="error">@error "Type 'between' requires two breakpoint sizes.";</span>
+        }
+
+        @if not map-has-key($breakpoints, $size2) {
+            <span class="error">@error "Breakpoint name '#{$size2}' does not exist in the breakpoints map.";</span>
+        }
+        
+        $breakpoint-size2: map-get($breakpoints, $size2);
+        @media (min-width: $breakpoint-size1) and (max-width: $breakpoint-size2 - 1px) {
+            @content;
+        }
+        }
+    }
+    
+    <span class="comments">// Usage example</span>
+    .container {
+        width: 100%;
+        padding: 20px;
+        
+        @include media('up', md) {
+            max-width: 960px;
+            margin: 0 auto;
+        }
+        
+        @include media('down', sm) {
+            font-size: 14px;
+        }
+        
+        @include media('between', sm, xl) {
+            padding: 10px;
+        }
+    }
+    </code>
+    </pre>
+        </div>
+
+        <div class="section">
+            <h3>Mixins for Breakpoints with Orientation</h3>
+            <pre>
+    <code class="css">
+    <span class="comments">// Mixin for generating media queries based on orientation</span>
+    @mixin mediaOrientation($orientation, $minWidth, $maxWidth: null, $maxHeight: null) {
+        <span class="comments">// Check if the orientation is valid</span>
+        @if $orientation != 'landscape' and $orientation != 'portrait' {
+            <span class="error">@error "Invalid orientation: '#{$orientation}'. Please use 'landscape' or 'portrait'.";</span>
+        }
+        
+        $breakpoint-size1: map-get($breakpoints, $minWidth);
+        $breakpoint-size2: if($maxWidth != null, map-get($breakpoints, $maxWidth), null);
+        
+        <span class="comments">// Orientation query</span>
+        $orientation-query: "(orientation: #{$orientation})";
+        
+        <span class="comments">// Generate media query</span>
+        @media #{$orientation-query} {
+            @if $maxWidth != null {
+            @media (min-width: #{$breakpoint-size1}) and (max-width: #{$breakpoint-size2}) {
+                @content;
+            }
+            } @else {
+            @media (min-width: #{$breakpoint-size1}) {
+                @content;
+            }
+            }
+        }
+    }
+    
+    <span class="comments">// Usage example</span>
+    .container {
+        width: 100%;
+        padding: 20px;
+        
+        @include mediaOrientation('landscape', sm, md) {
+            <span class="comments">// Styles for landscape mode with min-width: sm and max-width: md</span>
+        }
+        
+        @include mediaOrientation('portait', xs, sm, 600px) {
+            <span class="comments">// Styles for portrait mode with min-width: xs, max-width: sm, and max-height: 600px</span>
+        }
+    }
+    </code>
+    </pre>
+        </div>
+    </div>
+</body>
+
+</html>
