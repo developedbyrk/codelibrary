@@ -1,0 +1,144 @@
+$spacer: (
+  0: 0,
+  1: 4px,
+  2: 8px,
+  3: 12px,
+  4: 16px,
+  5: 24px,
+);
+
+@mixin marginUtility() {
+  @each $key, $value in $spacer {
+    .m-#{$key} {
+      margin: $value;
+    }
+
+    .ms-#{$key} {
+      margin-inline-start: $value;
+    }
+
+    .me-#{$key} {
+      margin-inline-end: $value;
+    }
+
+    .mt-#{$key} {
+      margin-block-start: $value;
+    }
+
+    .mb-#{$key} {
+      margin-block-end: $value;
+    }
+
+    .mx-#{$key} {
+      margin-inline: $value;
+    }
+
+    .my-#{$key} {
+      margin-block: $value;
+    }
+
+    @if (map-get($breakpoints, "md")) {
+      @if $key != 0 {
+        @include media("down", md) {
+          .m-#{$key} {
+            margin: calc($value/2);
+          }
+
+          .ms-#{$key} {
+            margin-inline-start: calc($value/2);
+          }
+
+          .me-#{$key} {
+            margin-inline-end: calc($value/2);
+          }
+
+          .mt-#{$key} {
+            margin-block-start: calc($value/2);
+          }
+
+          .mb-#{$key} {
+            margin-block-end: calc($value/2);
+          }
+
+          .mx-#{$key} {
+            margin-inline: calc($value/2);
+          }
+
+          .my-#{$key} {
+            margin-block: calc($value/2);
+          }
+        }
+      }
+    }
+  }
+}
+
+@include marginUtility();
+
+@mixin paddingUtility() {
+  @each $key, $value in $spacer {
+    .p-#{$key} {
+      padding: $value;
+    }
+
+    .ps-#{$key} {
+      padding-inline-start: $value;
+    }
+
+    .pe-#{$key} {
+      padding-inline-end: $value;
+    }
+
+    .pt-#{$key} {
+      padding-block-start: $value;
+    }
+
+    .pb-#{$key} {
+      padding-block-end: $value;
+    }
+
+    .px-#{$key} {
+      padding-inline: calc($value/2);
+    }
+
+    .py-#{$key} {
+      padding-block: calc($value/2);
+    }
+
+    @if (map-get($breakpoints, "md")) {
+      @if $key != 0 {
+        @include media("down", md) {
+          .p-#{$key} {
+            padding: calc($value/2);
+          }
+
+          .ps-#{$key} {
+            padding-inline-start: calc($value/2);
+          }
+
+          .pe-#{$key} {
+            padding-inline-end: calc($value/2);
+          }
+
+          .pt-#{$key} {
+            padding-block-start: calc($value/2);
+          }
+
+          .pb-#{$key} {
+            padding-block-end: calc($value/2);
+          }
+
+          .px-#{$key} {
+            padding-inline: calc($value/2);
+          }
+
+          .py-#{$key} {
+            padding-block: calc($value/2);
+          }
+        }
+      }
+    }
+  }
+}
+
+@include paddingUtility();

@@ -1,46 +1,7 @@
+@import "../../globalMixin";
+
 * {
   box-sizing: border-box;
-}
-
-/* Breakpoints */
-$breakpoints: (
-  xs: 320px,
-  sm: 576px,
-  md: 768px,
-  lg: 992px,
-  xl: 1200px,
-  xxl: 1400px,
-);
-
-/* Mixin for generating media queries */
-@mixin media($type, $size1, $size2: null) {
-  $breakpoint-size1: map-get($breakpoints, $size1);
-
-  @if not map-has-key($breakpoints, $size1) {
-    @error "Breakpoint name '#{$size1}' does not exist in the breakpoints map.";
-  }
-
-  @if $type == "up" {
-    @media (min-width: $breakpoint-size1) {
-      @content;
-    }
-  } @else if $type == "down" {
-    @media (max-width: $breakpoint-size1) {
-      @content;
-    }
-  } @else if $type == "between" {
-    @if $size2 == null {
-      @error "Type 'between' requires two breakpoint sizes.";
-    }
-
-    @if not map-has-key($breakpoints, $size2) {
-      @error "Breakpoint name '#{$size2}' does not exist in the breakpoints map.";
-    }
-    $breakpoint-size2: map-get($breakpoints, $size2);
-    @media (min-width: $breakpoint-size1) and (max-width: ($breakpoint-size2 - 0.02px)) {
-      @content;
-    }
-  }
 }
 
 $grid-gutter: 0.5rem;
