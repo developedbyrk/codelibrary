@@ -75,6 +75,79 @@ $spacer: (
 
 @include marginUtility();
 
+// Negative margin utility classes mixin start
+
+$negativeMarginEnabled: false; //set this value to true if you want to use negative margin
+@mixin negativeMarginUtility() {
+  @each $key, $value in $spacer {
+    @if $negativeMarginEnabled == true and $key != 0 {
+      .m-#{$key} {
+        margin: -$value;
+      }
+
+      .ms-#{$key} {
+        margin-inline-start: -$value;
+      }
+
+      .me-#{$key} {
+        margin-inline-end: -$value;
+      }
+
+      .mt-#{$key} {
+        margin-block-start: -$value;
+      }
+
+      .mb-#{$key} {
+        margin-block-end: -$value;
+      }
+
+      .mx-#{$key} {
+        margin-inline: -$value;
+      }
+
+      .my-#{$key} {
+        margin-block: -$value;
+      }
+
+      @if (map-get($breakpoints, "md")) {
+        @include media("down", md) {
+          .m-#{$key} {
+            margin: calc(($value/2) * -1);
+          }
+
+          .ms-#{$key} {
+            margin-inline-start: calc(($value/2) * -1);
+          }
+
+          .me-#{$key} {
+            margin-inline-end: calc(($value/2) * -1);
+          }
+
+          .mt-#{$key} {
+            margin-block-start: calc(($value/2) * -1);
+          }
+
+          .mb-#{$key} {
+            margin-block-end: calc(($value/2) * -1);
+          }
+
+          .mx-#{$key} {
+            margin-inline: calc(($value/2) * -1);
+          }
+
+          .my-#{$key} {
+            margin-block: calc(($value/2) * -1);
+          }
+        }
+      }
+    }
+  }
+}
+
+@include negativeMarginUtility();
+
+// Negative margin utility classes mixin end
+
 @mixin paddingUtility() {
   @each $key, $value in $spacer {
     .p-#{$key} {
