@@ -1,0 +1,55 @@
+@import "../../globalMixin";
+
+@mixin alerts(
+  $fontSize: 1.4rem,
+  $padding: 1.5rem,
+  $radius: 8px,
+  $marginBottom: 1rem,
+  $hasIcons: false,
+  $closeBtn: false
+) {
+  .alert {
+    border: 1px solid;
+    font-size: $fontSize;
+    padding: $padding;
+    border-radius: $radius;
+    margin-block-end: $marginBottom;
+    @if $hasIcons == true {
+      .start-icon {
+        margin-inline-end: 1rem;
+        vertical-align: text-top;
+      }
+    }
+    @if $closeBtn == true {
+      padding-inline-end: $padding + 1.5rem;
+      position: relative;
+      .dismiss-alert {
+        position: absolute;
+        inset-inline-end: calc($padding / 2);
+        inset-block-start: $padding;
+        cursor: pointer;
+      }
+    }
+
+    a {
+      font-weight: 600;
+      text-decoration: underline;
+    }
+  }
+  @each $key, $value in $colors {
+    .alert-#{$key} {
+      border-color: $value;
+      background-color: rgba($value, 0.25);
+      color: darken($value, 30%);
+
+      a {
+        color: currentColor;
+      }
+    }
+  }
+}
+
+// $hasIcons: set it to true if you have an icon in before the alert text and wrap icon with "start-icon" icon
+// $closeBtn: set it to true if you need close icon in the top right and close icon wrap with "dismiss-alert" class
+
+@include alerts($hasIcons: true, $closeBtn: true);
