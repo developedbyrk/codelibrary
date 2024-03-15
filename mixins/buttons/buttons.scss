@@ -1,3 +1,5 @@
+@import "../../globalMixin";
+
 :root {
   --btn-padding-inline: 8px;
   --btn-padding-block: 8px;
@@ -39,15 +41,8 @@
   }
 }
 
-$buttons: (
-  "primary": #333a73,
-  "secondary": #fba834,
-  "accent": #387adf,
-  "info": #50c4ed,
-);
-
 @mixin button() {
-  @each $name, $varient in $buttons {
+  @each $name, $varient in $colors {
     .btn-#{$name} {
       background-color: #{$varient};
       border: 1px solid color-mix(in lab, $varient, set-color($varient) 20%);
@@ -68,7 +63,7 @@ $buttons: (
 @include button();
 
 @mixin btn-outline() {
-  @each $name, $varient in $buttons {
+  @each $name, $varient in $colors {
     .btn-outline-#{$name} {
       background-color: transparent;
       border: 1px solid $varient;
