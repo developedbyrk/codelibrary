@@ -171,11 +171,11 @@ $negativeMarginEnabled: false; //set this value to true if you want to use negat
     }
 
     .px-#{$key} {
-      padding-inline: calc($value/2);
+      padding-inline: $value;
     }
 
     .py-#{$key} {
-      padding-block: calc($value/2);
+      padding-block: $value;
     }
 
     @if (map-get($breakpoints, "md")) {
