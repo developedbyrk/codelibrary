@@ -1,0 +1,54 @@
+@mixin bgColor() {
+  @each $key, $value in $colors {
+    .bg-#{$key} {
+      background-color: $value;
+    }
+  }
+}
+
+@include bgColor();
+
+@function set-color($color) {
+  @if (lightness($color) > 40) {
+    @return #000;
+  } @else {
+    @return #fff;
+  }
+}
+
+@mixin textBgColor() {
+  @each $key, $value in $colors {
+    .text-bg-#{$key} {
+      background-color: $value;
+      color: set-color($value);
+    }
+  }
+}
+
+@include textBgColor();
+
+@mixin text-colors() {
+  @each $key, $value in $colors {
+    .text-#{$key} {
+      color: $value;
+    }
+  }
+}
+
+@include text-colors();
+
+@mixin callout($padding: 1rem, $border-width: 3px) {
+  .callout {
+    padding: $padding;
+    border-left: $border-width solid;
+  }
+  @each $key, $value in $colors {
+    .callout-#{$key} {
+      background-color: lighten($value, 30%);
+      color: darken($value, 5%);
+      border-left-color: lighten($value, 15%);
+    }
+  }
+}
+
+@include callout();
